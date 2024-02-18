@@ -1,0 +1,50 @@
+import nltk
+from nltk.chat.util import Chat, reflections
+
+# Define reflections to handle pronouns
+reflections = {
+    "am": "are",
+    "was": "were",
+    "i": "you",
+    "i'd": "you would",
+    "i've": "you have",
+    "i'll": "you will",
+    "i'm": "you are",
+    "my": "your",
+    "you": "me",
+    "you'd": "I would",
+    "you've": "I have",
+    "you'll": "I will",
+    "your": "my",
+    "yours": "mine",
+    "you're": "I'm",
+}
+
+# Define health-related responses
+health_responses = {
+    "I have a headache": "You should rest and drink plenty of water.",
+    "I feel tired": "Make sure you are getting enough sleep and try to eat a balanced diet.",
+    "I have a fever": "You should see a doctor if your fever persists or gets worse.",
+    "I have a cough": "If your cough is persistent or accompanied by other symptoms, consider seeing a doctor.",
+    "I have a stomachache": "Avoid heavy or spicy foods and try drinking ginger tea to soothe your stomach.",
+}
+
+# Define a simple pattern-based chatbot
+pattern_responses = [
+    (r"I have (.*)", (health_responses.get, [""]),
+    (r"(.*)", ["I'm sorry, I'm not sure how to respond to that."]),
+]
+
+# Create a ChatBot
+def health_chatbot():
+    print("Hello! I am your health chatbot. How can I assist you today?")
+    chatbot = Chat(pattern_responses, reflections)
+    while True:
+        user_input = input("You: ")
+        response = chatbot.respond(user_input)
+        print("Bot:", response)
+
+# Main function
+if __name__ == "__main__":
+    nltk.download("punkt")
+    health_chatbot()
